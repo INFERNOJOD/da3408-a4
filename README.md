@@ -151,10 +151,6 @@ All 8 app metrics are shown on the dashboard. They are also available at http://
 
 ## AI disclosure
 
-I used Claude (Anthropic's AI assistant) while doing this assignment, as allowed in section 4. I used it
-for help writing the app and metrics code, the Prometheus / Alertmanager / Grafana configs, the
-PromQL queries and this README. I set everything up, ran and tested it on my own VM, and took all the
-screenshots myself.
+I used Claude (Anthropic) as an AI-assisted development tool during this assignment, primarily for guidance on implementation, debugging, configuration, and documentation. I reviewed the generated suggestions, integrated them into the project, and set up, ran, and tested the application and monitoring stack on my own VM. I also captured all screenshots myself.
 
-The PromQL written with AI help has the prompt I used next to it: as `# AI prompt:` comments in
-`monitoring/prometheus/alert_rules.yml`, and in `monitoring/grafana/PROMQL.md` for the dashboard queries.
+For AI-assisted PromQL queries, the prompts used are documented alongside the relevant queries: in monitoring/prometheus/alert_rules.yml using # AI prompt: comments, and in monitoring/grafana/PROMQL.md for dashboard queries.
