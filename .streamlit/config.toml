@@ -1,0 +1,9 @@
+[server]
+address = "0.0.0.0"     # reachable from the host machine, not just inside the VM
+port = 8501
+maxUploadSize = 500     # MB, so large ZIPs are accepted
+runOnSave = false
+fileWatcherType = "none"
+
+[browser]
+gatherUsageStats = false

@@ -1,0 +1,92 @@
+# Alert rules
+# PromQL in this file was written with AI help (allowed by the assignment).
+# The prompt used is written above each expression, as required by section 4.
+
+groups:
+  - name: availability
+    rules:
+      # AI prompt: "PromQL to alert when a Prometheus scrape target with job caption_app is down"
+      - alert: CaptionAppDown
+        expr: up{job="caption_app"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Captioning app is down"
+          description: "Prometheus could not scrape {{ $labels.instance }} for 15s."
+
+      # AI prompt: "PromQL to alert when node_exporter target is down"
+      - alert: NodeExporterDown
+        expr: up{job="node"} == 0
+        for: 15s
+        labels:
+          severity: critical
+        annotations:
+          summary: "node_exporter is down"
+          description: "No system metrics from {{ $labels.instance }} for 15s."
+
+  - name: application
+    rules:
+      # AI prompt: "PromQL for p95 latency from a histogram caption_inference_duration_seconds over 1 minute, alert above 3 seconds"
+      - alert: HighInferenceLatencyP95
+        expr: histogram_quantile(0.95, sum by (le) (rate(caption_inference_duration_seconds_bucket[1m]))) > 3
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "p95 inference latency above 3s"
+          description: "p95 is {{ $value | printf \"%.2f\" }}s over the last minute."
+
+      # AI prompt: "PromQL for the share of failed images out of all processed images in the last 2 minutes, alert above 20%"
+      - alert: HighImageFailureRate
+        expr: |
+          sum(increase(caption_images_processed_total{status="failed"}[2m]))
+            / sum(increase(caption_images_processed_total[2m])) > 0.2
+        for: 10s
+        labels:
+          severity: warning
+        annotations:
+          summary: "More than 20% of images are failing"
+          description: "Failure ratio is {{ $value | humanizePercentage }} over the last 2 minutes."
+
+      # AI prompt: "PromQL to alert if the inference queue gauge stays above 2 for 1 minute"
+      - alert: InferenceQueueBacklog
+        expr: caption_inference_queue_depth > 2
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Images are piling up waiting for the model"
+          description: "{{ $value }} images waiting for the model lock."
+
+  - name: system
+    rules:
+      # AI prompt: "PromQL for total CPU usage percent across all cores from node_cpu_seconds_total, alert above 90% for 2 minutes"
+      - alert: HighCPUUsage
+        expr: 100 * (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m]))) > 90
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "CPU above 90% for 2 minutes"
+          description: "CPU usage is {{ $value | printf \"%.1f\" }}%."
+
+      # AI prompt: "PromQL for available memory percentage from node_exporter, alert below 10%"
+      - alert: LowMemory
+        expr: 100 * node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 10
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Less than 10% RAM available"
+          description: "Only {{ $value | printf \"%.1f\" }}% memory available."
+
+      # AI prompt: "PromQL for free disk percent on / from node_filesystem metrics, ignoring tmpfs, alert below 10%"
+      - alert: LowDiskSpace
+        expr: 100 * node_filesystem_avail_bytes{mountpoint="/", fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{mountpoint="/", fstype!~"tmpfs|overlay"} < 10
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Root disk almost full"
+          description: "Only {{ $value | printf \"%.1f\" }}% disk space left on /."

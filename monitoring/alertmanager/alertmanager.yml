@@ -1,0 +1,19 @@
+# Alertmanager - groups alerts and forwards them to a small webhook receiver
+# (scripts/alert_receiver.py) that prints them in the terminal
+route:
+  receiver: terminal-webhook
+  group_by: ["alertname"]
+  group_wait: 5s
+  group_interval: 30s
+  repeat_interval: 1h
+
+receivers:
+  - name: terminal-webhook
+    webhook_configs:
+      - url: http://localhost:5001/alert
+        send_resolved: true
+
+inhibit_rules:
+  # if the app is down, don't also fire latency / failure alerts for it
+  - source_matchers: [alertname="CaptionAppDown"]
+    target_matchers: [severity="warning"]

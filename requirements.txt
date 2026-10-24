@@ -1,0 +1,9 @@
+# Install torch first from the CPU-only index (see README):
+#   uv pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch>=2.4
+transformers>=4.45      # tested with 5.20
+pillow>=10.0
+streamlit>=1.45        # needs st.context.ip_address
+prometheus-client>=0.20
+psutil>=5.9
+pandas>=2.0
