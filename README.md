@@ -43,8 +43,8 @@ I ran everything on an Ubuntu VM (aarch64, 4 vCPU, 7 GB RAM) on my Mac.
 
 **1. Python env (CPU-only torch)**
 ```bash
-git clone https://github.com/INFERNOJOD/da3408-a4-caption-observability.git
-cd da3408-a4-caption-observability
+git clone https://github.com/INFERNOJOD/da3408-a4.git
+cd da3408-a4
 uv venv --python 3.12 .venv
 source .venv/bin/activate
 uv pip install torch --index-url https://download.pytorch.org/whl/cpu
