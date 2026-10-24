@@ -3,8 +3,6 @@
 Streamlit app that captions images using **BLIP-base on CPU**, instrumented with `prometheus_client`.
 Prometheus scrapes the app and **node_exporter**, alert rules go through Alertmanager, and Grafana shows a dashboard.
 
-- Demo video: _(link)_
-- Dashboard recording (5 s refresh): _(link)_
 
 ## For TAs: what to check
 
@@ -16,7 +14,7 @@ Prometheus scrapes the app and **node_exporter**, alert rules go through Alertma
 | Alerting | `monitoring/prometheus/alert_rules.yml`, `monitoring/alertmanager/alertmanager.yml` · screenshots 10–12 |
 | Grafana dashboard (JSON export, 7 commandments) | `monitoring/grafana/dashboards/caption_dashboard.json` · screenshots 15–17 |
 | PromQL / AI prompts | `monitoring/grafana/PROMQL.md`, comments in `alert_rules.yml` |
-| Videos | links at the top of this file |
+| Videos | link in gform |
 
 ## Repo structure
 
